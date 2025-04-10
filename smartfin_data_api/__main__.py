@@ -1,5 +1,18 @@
+'''Entry points
+'''
+import asyncio
+
+from smartfin_data_api.config import configure_logging
+from smartfin_data_api.service import Service
+
+
 def main():
-    pass
+    """Main Entry Point
+    """
+    configure_logging()
+    asyncio.run(Service().run())
 
 def cli():
-    pass
+    """CLI Entry Point
+    """
+    configure_logging()
