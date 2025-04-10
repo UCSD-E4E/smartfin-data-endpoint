@@ -31,6 +31,5 @@ class Service:
 
         self._log.info('Service started')
         
-        while not self.stop_event.is_set():
-            await self.stop_event.wait(1)
+        await self.stop_event.wait()
         
