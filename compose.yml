@@ -5,12 +5,16 @@ services:
       dockerfile: Dockerfile
     restart: always
     container_name: smartfin_data_api
-    ports:
-      - 8083:80
     deploy:
       resources:
         limits:
           memory: 4G
+    labels:
+      caddy: data.smartfin.e4e.ucsd.edu
+      caddy.reverse_proxy: "{{upstreams 80}}"
+    networks:
+      - caddy_proxy
+      - default
   postgres:
     image: postgres:16.4
     restart: always
@@ -33,3 +37,7 @@ services:
 secrets:
   postgres_admin_password: 
     file: .secrets/postgres_admin_password.txt
+
+networks:
+  caddy_proxy:
+   external: true
