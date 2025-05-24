@@ -1,7 +1,6 @@
 '''Config
 '''
 
-import datetime as dt
 import logging
 import logging.handlers
 import os
@@ -11,8 +10,7 @@ from typing import Dict
 
 import platformdirs
 import validators
-from dynaconf import Dynaconf, Validator
-from humanfriendly import parse_timespan, parse_size
+from dynaconf import Dynaconf
 
 IS_DOCKER = os.environ.get('E4ESF_DOCKER', False)
 platform_dirs = platformdirs.PlatformDirs('e4esf_spider')
@@ -70,7 +68,7 @@ def get_cache_path() -> Path:
 
 
 validators = [
-    
+
 ]
 
 settings = Dynaconf(

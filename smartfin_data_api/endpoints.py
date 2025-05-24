@@ -9,6 +9,8 @@ from tornado.web import RequestHandler
 from smartfin_data_api import __version__
 from smartfin_data_api.metrics import get_counter, get_summary
 
+# pylint: disable=abstract-method, arguments-differ, attribute-defined-outside-init
+# This is typical behavior for tornado
 
 class BaseHandler(RequestHandler):
     """Base Handler for E4ESF
