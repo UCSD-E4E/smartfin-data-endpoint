@@ -15,6 +15,10 @@ from smartfin_data_api.metrics import system_monitor_thread
 
 
 class Service:
+    """Service class
+    """
+    # pylint: disable=too-few-public-methods
+    # Main entrypoint
     def __init__(self):
         self._log = logging.getLogger('Service')
         self.stop_event = Event()
@@ -36,13 +40,14 @@ class Service:
         self._webapp = Application(
             routes
         )
-    
+
     async def run(self):
+        """Run entrypoing
+        """
         start_http_server(9090)
         self._webapp.listen(80)
         system_monitor_thread.start()
 
         self._log.info('Service started')
-        
+
         await self.stop_event.wait()
-        
