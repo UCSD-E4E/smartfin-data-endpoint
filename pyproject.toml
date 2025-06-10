@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "smartfin-data-api"
-version = "0.1.0"
+version = "1.0.0"
 description = "SmartFin Data API"
 authors = [
     "UCSD Engineers for Exploration <e4e@ucsd.edu>",
