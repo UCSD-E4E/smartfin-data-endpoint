@@ -1,5 +1,6 @@
 '''Data API handlers
 '''
+import logging
 import datetime as dt
 from http import HTTPStatus
 from importlib.metadata import version
@@ -99,4 +100,24 @@ class VersionHandler(BaseHandler):
         self.write({
             'version': version('smartfin_data_api')
         })
+        self.set_status(HTTPStatus.OK)
+
+
+class ParticleEventHandler(BaseHandler):
+    """Particle Event handler
+
+    """
+    SUPPORTED_METHODS = ('POST',)
+
+    def initialize(self):
+        """Initializes handler
+        """
+        self.__log = logging.getLogger('ParticleEventHandler')
+
+    async def post(self, *_, **__) -> None:
+        """POST method handler
+        """
+        self.__log.debug('Header: %s', self.request.headers)
+        self.__log.debug('Body: %s', self.request.body)
+
         self.set_status(HTTPStatus.OK)

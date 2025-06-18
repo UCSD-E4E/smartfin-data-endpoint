@@ -10,7 +10,7 @@ import pytz
 from prometheus_client import start_http_server
 from tornado.web import Application, URLSpec
 
-from smartfin_data_api.endpoints import HomePageHandler, VersionHandler
+from smartfin_data_api.endpoints import HomePageHandler, VersionHandler, ParticleEventHandler
 from smartfin_data_api.metrics import system_monitor_thread
 
 
@@ -35,6 +35,10 @@ class Service:
             URLSpec(
                 pattern=r'/version$',
                 handler=VersionHandler
+            ),
+            URLSpec(
+                pattern=r'/api/v1/publish$',
+                handler=ParticleEventHandler
             )
         ]
         self._webapp = Application(
