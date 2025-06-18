@@ -42,6 +42,14 @@ services:
     # ports:
     #   - 5432:5432
     user: "${USER_ID}:${GROUP_ID}"
+  
+  pgadmin4:
+    image: dpage/pgadmin4:8.4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_PASSWORD_FILE: /run/secrets/pgadmin_admin_password
+      PGADMIN_DEFAULT_EMAIL: e4e@ucsd.edu
+      
 
 secrets:
   postgres_admin_password: 
