@@ -49,7 +49,8 @@ services:
     environment:
       PGADMIN_DEFAULT_PASSWORD_FILE: /run/secrets/pgadmin_admin_password
       PGADMIN_DEFAULT_EMAIL: e4e@ucsd.edu
-      
+    ports:
+      - 8080:80
 
 secrets:
   postgres_admin_password: 
