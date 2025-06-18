@@ -117,7 +117,7 @@ class ParticleEventHandler(BaseHandler):
     """Particle Event handler
 
     """
-    SUPPORTED_METHODS = ('POST',)
+    SUPPORTED_METHODS = ('POST', 'OPTIONS')
 
     def initialize(self):
         """Initializes handler
