@@ -18,8 +18,21 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    environment:
+      E4ESF__POSTGRES__PASSWORD_FILE: /run/secrets/postgres_admin_password
+      E4ESF__POSTGRES__HOST: postgres
+      E4ESF__POSTGRES__USER: postgres
+      E4ESF__POSTGRES__DATABSE: postgres
+    secrets:
+      - postgres_admin_password
+    healthcheck:
+      test: curl -f http://localhost || exit 1
+      start_period: 20s
+      timeout: 30s
+      interval: 10s
+      retries: 5
   postgres:
-    image: postgres:16.4
+    image: timescale/timescaledb-ha:pg17
     restart: always
     shm_size: 128 mb
     environment:
