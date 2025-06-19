@@ -5,7 +5,7 @@ CREATE TABLE version (
 INSERT INTO version (version) VALUES (1);
 
 CREATE TABLE records (
-    published_at TIMESTAMPZ NOT NULL,
+    published_at TIMESTAMPTZ NOT NULL,
     event TEXT NOT NULL,
     data TEXT NOT NULL,
     coreid TEXT NOT NULL,
