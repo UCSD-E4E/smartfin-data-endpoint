@@ -51,10 +51,14 @@ services:
       PGADMIN_DEFAULT_EMAIL: e4e@ucsd.edu
     ports:
       - 8080:80
+    secrets:
+      - pgadmin_admin_password
 
 secrets:
   postgres_admin_password: 
     file: .secrets/postgres_admin_password.txt
+  pgadmin_admin_password:
+    file: .secrets/pgadmin_admin_password.txt
 
 networks:
   caddy_proxy:
