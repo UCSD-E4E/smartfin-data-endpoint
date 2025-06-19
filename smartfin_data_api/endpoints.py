@@ -1,7 +1,8 @@
 '''Data API handlers
 '''
-import logging
 import datetime as dt
+import json
+import logging
 from http import HTTPStatus
 from importlib.metadata import version
 
@@ -9,6 +10,7 @@ from tornado.web import RequestHandler
 
 from smartfin_data_api import __version__
 from smartfin_data_api.metrics import get_counter, get_summary
+from smartfin_data_api.postgres import PostgresSchema
 
 # pylint: disable=abstract-method, arguments-differ, attribute-defined-outside-init
 # This is typical behavior for tornado
@@ -115,15 +117,25 @@ class ParticleEventHandler(BaseHandler):
     """
     SUPPORTED_METHODS = ('POST', 'OPTIONS')
 
-    def initialize(self):
+    def initialize(self, pg_schema: PostgresSchema):
         """Initializes handler
         """
         self.__log = logging.getLogger('ParticleEventHandler')
+        self.__schema = pg_schema
 
     async def post(self, *_, **__) -> None:
         """POST method handler
         """
         self.__log.debug('Header: %s', self.request.headers)
-        self.__log.debug('Body: %s', self.request.body)
+
+        body = json.loads(self.request.body)
+        self.__log.debug('Body: %s', body)
+        self.__schema.insert_record(
+            published_at=dt.datetime.fromisoformat(body['published_at']),
+            event=body['event'],
+            data=body['data'],
+            coreid=body['coreid'],
+            fw_version=int(body['fw_version'])
+        )
 
         self.set_status(HTTPStatus.OK)
