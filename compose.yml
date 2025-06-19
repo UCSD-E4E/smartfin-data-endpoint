@@ -44,7 +44,7 @@ services:
       interval: 10s
       retries: 5
     volumes:
-      - ./postgres/data/:/var/lib/postgresql/data/:rw
+      - ./postgres/data/:/home/postgres/pgdata/data/:rw
       - ./postgres/config/:/etc/postgresql/:ro
       # - ./.secrets/certs/:/certs/:ro
       - ./postgres/scripts/:/docker-entrypoint-initdb.d/:ro
