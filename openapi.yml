@@ -31,6 +31,23 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ParticleEvent'
+            examples:
+              with_time:
+                event: Sfin-e00fce68a74c41df28b61a2b-250619-220107-0
+                data: DwAACEZXMy4xNy4zQQAA3NOxAADf01EBAOHT8QEA4NORAgDg03EDAOIF0QMA5AWBBADkBREFAOIFwQUA5AVRBgDmBQEHAOcFkQcA5gUxCADnBfEIAOkFgQkA6AURCgDnBdEKAOkFYQsA6QXxCwDrBZEMAOsFAAAA
+                published_at: '2025-06-19T22:01:40.629Z'
+                coreid: e00fce68a74c41df28b61a2b
+                userid: null
+                fw_version: 0
+                public: false
+              without_time:
+                event: Sfin-e00fce68a74c41df28b61a2b-000004-0
+                data: DwAACEZXMy4xNy4yYQAA0dOxAADR0-EBANLT4QEA0tOhAgDV0yEDANLT0QMA0tORBADT0wEFANXToQUA09NRBgDV0-EGANTTwQcA1dNBCADT09EIANPTgQkA1NMBCgDTBdEKANQFUQsA1AXxCwDTBZEMANMFIQ0A0wXRDQDTBWEOANIFEQ8A0gWhDwDSBUEQANMF4RAA0wWhEQDRBSESANAF0RIA0AUA
+                coreid: e00fce68a74c41df28b61a2b
+                published_at: '2025-06-18T22:00:33.001Z'
+                userid: null
+                fw_version: 0
+                public: false
         required: true
       responses:
         '200':
@@ -744,30 +761,31 @@ components:
         event:
           type: string
           description: The name of the event
-          example: Sfin-e00fce68a74c41df28b61a2b-00000004-0
         data:
           type: string
           description: The data associated with the event
-          example: DwAACEZXMy4xNy4yYQAA0dOxAADR0-EBANLT4QEA0tOhAgDV0yEDANLT0QMA0tORBADT0wEFANXToQUA09NRBgDV0-EGANTTwQcA1dNBCADT09EIANPTgQkA1NMBCgDTBdEKANQFUQsA1AXxCwDTBZEMANMFIQ0A0wXRDQDTBWEOANIFEQ8A0gWhDwDSBUEQANMF4RAA0wWhEQDRBSESANAF0RIA0AUA
         coreid:
           type: string
           description: The ID of the device that published the event
-          example: e00fce68a74c41df28b61a2b
         published_at:
           type: string
           description: When the event was published as RFC 3339 format
-          example: '2025-06-18T22:00:33.001Z'
         userid:
           type: string
           description: The user id of the device owner
-          example: 
         fw_version:
           type: integer
           description: The firmware version that published the event
-          example: 0
         public:
           type: boolean
-          example: false
+      example:
+        event: Sfin-e00fce68a74c41df28b61a2b-250619-220107-0
+        data: DwAACEZXMy4xNy4yYQAA0dOxAADR0-EBANLT4QEA0tOhAgDV0yEDANLT0QMA0tORBADT0wEFANXToQUA09NRBgDV0-EGANTTwQcA1dNBCADT09EIANPTgQkA1NMBCgDTBdEKANQFUQsA1AXxCwDTBZEMANMFIQ0A0wXRDQDTBWEOANIFEQ8A0gWhDwDSBUEQANMF4RAA0wWhEQDRBSESANAF0RIA0AUA
+        coreid: e00fce68a74c41df28b61a2b
+        published_at: '2025-06-18T22:00:33.001Z'
+        userid: 
+        fw_version: 0
+        public: false
     # Pet:
     #   required:
     #     - name
