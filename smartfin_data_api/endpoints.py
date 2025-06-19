@@ -1,6 +1,8 @@
 '''Data API handlers
 '''
 import datetime as dt
+import json
+import logging
 from http import HTTPStatus
 from importlib.metadata import version
 
@@ -8,6 +10,7 @@ from tornado.web import RequestHandler
 
 from smartfin_data_api import __version__
 from smartfin_data_api.metrics import get_counter, get_summary
+from smartfin_data_api.postgres import PostgresSchema
 
 # pylint: disable=abstract-method, arguments-differ, attribute-defined-outside-init
 # This is typical behavior for tornado
@@ -15,6 +18,12 @@ from smartfin_data_api.metrics import get_counter, get_summary
 class BaseHandler(RequestHandler):
     """Base Handler for E4ESF
     """
+
+    def _request_summary(self):
+        remote_ip = self.request.headers.get('X-Real-IP') or \
+            self.request.headers.get('X-Forwarded-For') or \
+            self.request.remote_ip
+        return f'{self.request.method} {self.request.uri} ({remote_ip})'
 
     def prepare(self):
         if hasattr(self, 'PATH_OVERRIDE'):
@@ -99,4 +108,34 @@ class VersionHandler(BaseHandler):
         self.write({
             'version': version('smartfin_data_api')
         })
+        self.set_status(HTTPStatus.OK)
+
+
+class ParticleEventHandler(BaseHandler):
+    """Particle Event handler
+
+    """
+    SUPPORTED_METHODS = ('POST', 'OPTIONS')
+
+    def initialize(self, pg_schema: PostgresSchema):
+        """Initializes handler
+        """
+        self.__log = logging.getLogger('ParticleEventHandler')
+        self.__schema = pg_schema
+
+    async def post(self, *_, **__) -> None:
+        """POST method handler
+        """
+        self.__log.debug('Header: %s', self.request.headers)
+
+        body = json.loads(self.request.body)
+        self.__log.debug('Body: %s', body)
+        self.__schema.insert_record(
+            published_at=dt.datetime.fromisoformat(body['published_at']),
+            event=body['event'],
+            data=body['data'],
+            coreid=body['coreid'],
+            fw_version=int(body['fw_version'])
+        )
+
         self.set_status(HTTPStatus.OK)

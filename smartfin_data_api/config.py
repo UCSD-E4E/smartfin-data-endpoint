@@ -6,11 +6,11 @@ import logging.handlers
 import os
 import time
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List
 
 import platformdirs
 import validators
-from dynaconf import Dynaconf
+from dynaconf import Dynaconf, Validator
 
 IS_DOCKER = os.environ.get('E4ESF_DOCKER', False)
 platform_dirs = platformdirs.PlatformDirs('e4esf_spider')
@@ -67,8 +67,29 @@ def get_cache_path() -> Path:
     return cache_path
 
 
-validators = [
-
+validator_list: List[Validator] = [
+    Validator(
+        'postgres.password_file',
+        required=True,
+        cast=Path,
+        condition=lambda x: Path(x).is_file()
+    ),
+    Validator(
+        'postgres.host',
+        required=True,
+        cast=str,
+        condition=lambda x: bool(validators.hostname(x))
+    ),
+    Validator(
+        'postgres.user',
+        required=True,
+        cast=str
+    ),
+    Validator(
+        'postgres.database',
+        required=True,
+        cast=str
+    )
 ]
 
 settings = Dynaconf(
@@ -78,7 +99,7 @@ settings = Dynaconf(
         (get_config_path() / 'settings.toml').as_posix(),
         (get_config_path() / '.secrets.toml').as_posix()],
     merge_enabled=True,
-    validators=validators
+    validators=validator_list
 )
 
 # `envvar_prefix` = export envvars with `export DYNACONF_FOO=bar`.

@@ -15,28 +15,54 @@ services:
     networks:
       - caddy_proxy
       - default
+    ports:
+      - 9091:9090 # prometheus
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      E4ESF_POSTGRES__PASSWORD_FILE: /run/secrets/postgres_admin_password
+      E4ESF_POSTGRES__HOST: postgres
+      E4ESF_POSTGRES__USER: postgres
+      E4ESF_POSTGRES__DATABASE: postgres
+    secrets:
+      - postgres_admin_password
+    healthcheck:
+      test: curl -f http://localhost:80/version || exit 1
+      start_period: 20s
+      timeout: 30s
+      interval: 10s
+      retries: 5
   postgres:
-    image: postgres:16.4
+    image: timescale/timescaledb-ha:pg17
     restart: always
     shm_size: 128 mb
     environment:
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres_admin_password
+    healthcheck:
+      test: pg_isready -q -t 2 -d postgres -U postgres
+      start_period: 20s
+      timeout: 30s
+      interval: 10s
+      retries: 5
     volumes:
-      - ./postgres/data/:/var/lib/postgresql/data/:rw
+      - ./postgres/data/:/home/postgres/pgdata/data/:rw
       - ./postgres/config/:/etc/postgresql/:ro
-      # - ./.secrets/certs/:/certs/:ro
-      - ./postgres/scripts/:/docker-entrypoint-initdb.d/:ro
       - /etc/passwd:/etc/passwd:ro
     secrets:
       - postgres_admin_password
     command: --config_file=/etc/postgresql/postgres.conf
-    # ports:
-    #   - 5432:5432
     user: "${USER_ID}:${GROUP_ID}"
+  
+  adminer:
+    image: adminer:4.8.1
+    ports:
+      - 8081:8080
 
 secrets:
   postgres_admin_password: 
     file: .secrets/postgres_admin_password.txt
+
 
 networks:
   caddy_proxy:

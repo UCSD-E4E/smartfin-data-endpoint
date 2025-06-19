@@ -21,6 +21,13 @@ __all_summaries: Dict[str, Summary] = {
         namespace='e4esf',
         subsystem='api',
     ),
+    'query_duration': Summary(
+        name='query_duration',
+        documentation='SQL Query Duration',
+        labelnames=['query'],
+        namespace='e4esf',
+        subsystem='api'
+    )
 }
 __summariess_lock = Lock()
 __all_histograms: Dict[str, Histogram] = {}
