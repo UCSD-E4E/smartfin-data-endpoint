@@ -9,7 +9,7 @@ CREATE TABLE records (
     event TEXT NOT NULL,
     data TEXT NOT NULL,
     coreid TEXT NOT NULL,
-    fw_version INTEGER NOT NULL
+    fw_version INTEGER NOT NULL,
     CONSTRAINT records_pkey PRIMARY KEY (coreid, published_at, event)
 ) WITH (
     tsdb.hypertable,
