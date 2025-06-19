@@ -10,7 +10,7 @@ CREATE TABLE records (
     data TEXT NOT NULL,
     coreid TEXT NOT NULL,
     fw_version INTEGER NOT NULL
-    CONSTRAING records_pkey PRIMARY KEY (coreid, published_at, event)
+    CONSTRAINT records_pkey PRIMARY KEY (coreid, published_at, event)
 ) WITH (
     tsdb.hypertable,
     tsdb.partition_column='published_at',
