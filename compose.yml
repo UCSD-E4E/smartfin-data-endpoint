@@ -22,7 +22,7 @@ services:
       E4ESF_POSTGRES__PASSWORD_FILE: /run/secrets/postgres_admin_password
       E4ESF_POSTGRES__HOST: postgres
       E4ESF_POSTGRES__USER: postgres
-      E4ESF_POSTGRES__DATABSE: postgres
+      E4ESF_POSTGRES__DATABASE: postgres
     secrets:
       - postgres_admin_password
     healthcheck:
