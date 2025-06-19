@@ -78,7 +78,7 @@ validator_list: List[Validator] = [
         'postgres.host',
         required=True,
         cast=str,
-        condition=lambda x: validators.hostname(x) == True
+        condition=lambda x: bool(validators.hostname(x))
     ),
     Validator(
         'postgres.user',

@@ -18,14 +18,10 @@ class BaseHandler(RequestHandler):
     """
 
     def _request_summary(self):
-        remote_ip = self.request.headers.get("X-Real-IP") or \
-            self.request.headers.get("X-Forwarded-For") or \
+        remote_ip = self.request.headers.get('X-Real-IP') or \
+            self.request.headers.get('X-Forwarded-For') or \
             self.request.remote_ip
-        return "%s %s (%s)" % (
-            self.request.method,
-            self.request.uri,
-            remote_ip,
-        )
+        return f'{self.request.method} {self.request.url} ({remote_ip})'
 
     def prepare(self):
         if hasattr(self, 'PATH_OVERRIDE'):
