@@ -49,7 +49,7 @@ class Service:
             routes
         )
         with open(settings.postgres.password_file, 'r', encoding='utf-8') as handle:
-            pg_password = handle.read(256)
+            pg_password = handle.read(256).strip()
         self._postgres_schema = PostgresSchema(
             host=settings.postgres.host,
             user=settings.postgres.user,
