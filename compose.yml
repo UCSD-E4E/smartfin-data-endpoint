@@ -19,14 +19,14 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      E4ESF_POSTGRES_PASSWORD_FILE: /run/secrets/postgres_admin_password
-      E4ESF_POSTGRES_HOST: postgres
-      E4ESF_POSTGRES_USER: postgres
-      E4ESF_POSTGRES_DATABSE: postgres
+      E4ESF_POSTGRES__PASSWORD_FILE: /run/secrets/postgres_admin_password
+      E4ESF_POSTGRES__HOST: postgres
+      E4ESF_POSTGRES__USER: postgres
+      E4ESF_POSTGRES__DATABSE: postgres
     secrets:
       - postgres_admin_password
     healthcheck:
-      test: curl -f http://localhost || exit 1
+      test: curl -f http://localhost:80/version || exit 1
       start_period: 20s
       timeout: 30s
       interval: 10s
