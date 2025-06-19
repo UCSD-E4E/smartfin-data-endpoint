@@ -43,28 +43,15 @@ services:
     #   - 5432:5432
     user: "${USER_ID}:${GROUP_ID}"
   
-  pgadmin4:
-    image: dpage/pgadmin4:8.4
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_PASSWORD_FILE: /run/secrets/pgadmin_admin_password
-      PGADMIN_DEFAULT_EMAIL: e4e@ucsd.edu
+  adminer:
+    image: adminer:4.8.1
     ports:
-      - 8080:80
-    secrets:
-      - pgadmin_admin_password
-    healthcheck:
-      test: curl -f http://localhost:80/ || exit 1
-      interval: 1m30s
-      timeout: 30s
-      retries: 5
-      start_period: 30s
+      - 8080:8080
 
 secrets:
   postgres_admin_password: 
     file: .secrets/postgres_admin_password.txt
-  pgadmin_admin_password:
-    file: .secrets/pgadmin_admin_password.txt
+
 
 networks:
   caddy_proxy:
