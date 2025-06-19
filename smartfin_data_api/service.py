@@ -30,6 +30,15 @@ class Service:
 
         start_time = dt.datetime.now(tz=pytz.UTC)
 
+        with open(settings.postgres.password_file, 'r', encoding='utf-8') as handle:
+            pg_password = handle.read(256).strip()
+        self._postgres_schema = PostgresSchema(
+            host=settings.postgres.host,
+            user=settings.postgres.user,
+            password=pg_password,
+            database=settings.postgres.database
+        )
+
         routes: List[URLSpec] = [
             URLSpec(
                 pattern=r'/$',
@@ -42,19 +51,14 @@ class Service:
             ),
             URLSpec(
                 pattern=r'/api/v1/publish$',
-                handler=ParticleEventHandler
+                handler=ParticleEventHandler,
+                kwargs={
+                    'pg_schema': self._postgres_schema
+                }
             )
         ]
         self._webapp = Application(
             routes
-        )
-        with open(settings.postgres.password_file, 'r', encoding='utf-8') as handle:
-            pg_password = handle.read(256).strip()
-        self._postgres_schema = PostgresSchema(
-            host=settings.postgres.host,
-            user=settings.postgres.user,
-            password=pg_password,
-            database=settings.postgres.database
         )
 
     async def run(self):
