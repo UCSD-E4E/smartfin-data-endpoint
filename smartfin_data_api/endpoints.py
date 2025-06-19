@@ -21,7 +21,7 @@ class BaseHandler(RequestHandler):
         remote_ip = self.request.headers.get('X-Real-IP') or \
             self.request.headers.get('X-Forwarded-For') or \
             self.request.remote_ip
-        return f'{self.request.method} {self.request.url} ({remote_ip})'
+        return f'{self.request.method} {self.request.uri} ({remote_ip})'
 
     def prepare(self):
         if hasattr(self, 'PATH_OVERRIDE'):
