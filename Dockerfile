@@ -36,5 +36,6 @@ ENV E4ESF_DOCKER=true
 RUN mkdir -p /e4esf/config /e4esf/logs /e4esf/data /e4esf/cache
 COPY --from=builder /app/.venv /app/.venv
 COPY --from=builder /app/smartfin_data_api /app/smartfin_data_api
+COPY ./sql /app/sql
 
 ENTRYPOINT ["sf_api"]
