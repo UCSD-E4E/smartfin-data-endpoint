@@ -19,10 +19,10 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      E4ESF__POSTGRES__PASSWORD_FILE: /run/secrets/postgres_admin_password
-      E4ESF__POSTGRES__HOST: postgres
-      E4ESF__POSTGRES__USER: postgres
-      E4ESF__POSTGRES__DATABSE: postgres
+      E4ESF_POSTGRES_PASSWORD_FILE: /run/secrets/postgres_admin_password
+      E4ESF_POSTGRES_HOST: postgres
+      E4ESF_POSTGRES_USER: postgres
+      E4ESF_POSTGRES_DATABSE: postgres
     secrets:
       - postgres_admin_password
     healthcheck:
