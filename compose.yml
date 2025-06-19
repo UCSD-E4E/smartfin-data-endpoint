@@ -48,20 +48,14 @@ services:
     volumes:
       - ./postgres/data/:/home/postgres/pgdata/data/:rw
       - ./postgres/config/:/etc/postgresql/:ro
-      # - ./.secrets/certs/:/certs/:ro
-      - ./postgres/scripts/:/docker-entrypoint-initdb.d/:ro
-      - /etc/passwd:/etc/passwd:ro
     secrets:
       - postgres_admin_password
     command: --config_file=/etc/postgresql/postgres.conf
-    # ports:
-    #   - 5432:5432
-    user: "${USER_ID}:${GROUP_ID}"
   
   adminer:
     image: adminer:4.8.1
     ports:
-      - 8080:8080
+      - 8081:8080
 
 secrets:
   postgres_admin_password: 
