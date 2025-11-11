@@ -10,8 +10,11 @@ services:
         limits:
           memory: 4G
     labels:
-      caddy: data.smartfin.e4e.ucsd.edu
-      caddy.reverse_proxy: "{{upstreams 80}}"
+      - "traefik.enable=true"
+      - "traefik.http.routers.smartfin_data_api.rule=Host(`data.smartfin.e4e.ucsd.edu`)"
+      - "traefik.http.routers.smartfin_data_api.entrypoints=websecure"
+      - "traefik.http.routers.smartfin_data_api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.smartfin_data_api.loadbalancer.server.port=80"
     networks:
       - caddy_proxy
       - default
